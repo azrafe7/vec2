@@ -30,6 +30,7 @@ package
 			assert(v1.copyXY(1, 1).normalizeSelf().isWithinXY(0.7, 0.7, 0.1));
 			assert(v1.isNormalized());
 			assert(v1.copyXY(1, 1).normalize().isWithinXY(0.7, 0.7, 0.1));
+			trace(v1.normalize(3).length());
 			assert(!v1.isNormalized());
 			 
 			// rotate
