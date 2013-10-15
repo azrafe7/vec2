@@ -45,69 +45,70 @@ package shared.math
 		/** Epsilon squared */
         public static const EpsilonSqr:Number = Epsilon * Epsilon;
  
-		/** X component (read-only) */
-        public function get x():Number { return _x; }
-		
-		/** Y component (read-only) */
-        public function get y():Number { return _y; }
- 
 		
 		/** @private */
 		internal var _x:Number;
-
-		/** @private */
-        internal var _y:Number;
- 
         
+		/** @private */
+		internal var _y:Number;
+
+        
+		
 		public function Vec2Const(x:Number = 0, y:Number = 0)
         {
             _x = x;
             _y = y;
         }
  
+		/** X component (read-only) */
+        public function get x():Number { return _x; }
+		
+		/** Y component (read-only) */
+        public function get y():Number { return _y; }
+ 
 		/** Returns a new Vec2, replica of this instance */
-        public function clone():Vec2 { return Vec2.getNew(_x, _y); }
+        public function clone():Vec2 { return new Vec2(_x, _y); }
  
 		
 		
 		/** Adds "pos" vector (returns a new Vec2) */
-        public function add(pos:Vec2Const):Vec2 { return Vec2.getNew(_x + pos._x, _y + pos._y); }
+        public function add(pos:Vec2Const):Vec2 { return new Vec2(_x + pos._x, _y + pos._y); }
 
 		/** Adds ("x", "y") (returns a new Vec2) */
-        public function addXY(x:Number, y:Number):Vec2 { return Vec2.getNew(_x + x, _y + y); }
+        public function addXY(x:Number, y:Number):Vec2 { return new Vec2(_x + x, _y + y); }
  
 		/** Subtracts "pos" vector (returns a new Vec2) */
-        public function sub(pos:Vec2Const):Vec2 { return Vec2.getNew(_x - pos._x, _y - pos._y); }
+        public function sub(pos:Vec2Const):Vec2 { return new Vec2(_x - pos._x, _y - pos._y); }
 
 		/** Subtracts ("x", "y") (returns a new Vec2) */
-        public function subXY(x:Number, y:Number):Vec2 { return Vec2.getNew(_x - x, _y - y); }
+        public function subXY(x:Number, y:Number):Vec2 { return new Vec2(_x - x, _y - y); }
  
 		/** Multiplies by "vec" vector (returns a new Vec2) */
-        public function mul(vec:Vec2Const):Vec2 { return Vec2.getNew(_x * vec._x, _y * vec._y); }
+        public function mul(vec:Vec2Const):Vec2 { return new Vec2(_x * vec._x, _y * vec._y); }
 
 		/** Multiplies by ("x", "y") (returns a new Vec2) */
-        public function mulXY(x:Number, y:Number):Vec2 { return Vec2.getNew(_x * x, _y * y); }
+        public function mulXY(x:Number, y:Number):Vec2 { return new Vec2(_x * x, _y * y); }
  
  		/** Divides by "vec" vector (returns a new Vec2) */
-        public function div(vec:Vec2Const):Vec2 { return Vec2.getNew(_x / vec._x, _y / vec._y); }
+        public function div(vec:Vec2Const):Vec2 { return new Vec2(_x / vec._x, _y / vec._y); }
 
 		/** Divides by ("x", "y") (returns a new Vec2) */
-         public function divXY(x:Number, y:Number):Vec2 { return Vec2.getNew(_x / x, _y / y); }
+         public function divXY(x:Number, y:Number):Vec2 { return new Vec2(_x / x, _y / y); }
  
         /** Scales by the scalar "s" (returns a new Vec2) */
-        public function scale(s:Number):Vec2 { return Vec2.getNew(_x * s, _y * s); }
+        public function scale(s:Number):Vec2 { return new Vec2(_x * s, _y * s); }
  
         /** Normalizes the vector (returns a new Vec2) */
         public function normalize(length:Number = 1):Vec2
         {
             const nf:Number = length / Math.sqrt(_x * _x + _y * _y);
-            return Vec2.getNew(_x * nf, _y * nf);
+            return new Vec2(_x * nf, _y * nf);
         }
  
 		
 		
 		/** Computes the length of the vector */
-		public function length():Number { return Math.sqrt(_x * _x + _y * _y); }
+		public function get length():Number { return Math.sqrt(_x * _x + _y * _y); }
 
 		/** Computes the squared length of the vector */
         public function lengthSqr():Number { return _x * _x + _y * _y; }
@@ -152,7 +153,7 @@ package shared.math
 		/** Returns true if this vector's components equal ("x", "y") */
         public function equalsXY(x:Number, y:Number):Boolean { return _x == x && _y == y; }
         
-		/** Returns true if this vector is normalized */
+		/** Returns true if this vector is normalized (length == 1) */
 		public function isNormalized():Boolean { return Math.abs((_x * _x + _y * _y)-1) < EpsilonSqr; }
 
 		/** Returns true if this vector's components are 0 */
@@ -174,10 +175,13 @@ package shared.math
         public function isValid():Boolean { return !isNaN(_x) && !isNaN(_y) && isFinite(_x) && isFinite(_y); }
         
 		/** Vector angle in degrees */
-		public function getDegrees():Number { return getRads() * RAD2DEG; }
+		public function getDegrees():Number { return Math.atan2(_y, _x) * RAD2DEG; }
 
 		/** Vector angle in radians */
         public function getRads():Number { return Math.atan2(_y, _x); }
+		
+		/** Vector angle in radians */
+		public function get angle():Number { return Math.atan2(_y, _x); }
  
 		/** Angle between this vector and "vec" in radians */
         public function getRadsBetween(vec:Vec2Const):Number { return Math.atan2(x - vec.x, y - vec.y); }
@@ -201,22 +205,44 @@ package shared.math
         {
             const s:Number = Math.sin(rads);
             const c:Number = Math.cos(rads);
-            return Vec2.getNew(_x * c - _y * s, _x * s + _y * c);
+            return new Vec2(_x * c - _y * s, _x * s + _y * c);
         }
 
         /** Returns a new Vec2 right-perpendicular to this vector */
-        public function normalRight():Vec2 { return Vec2.getNew(-_y, _x); }
+        public function perpRight():Vec2 { return new Vec2(-_y, _x); }
         
 		/** Returns a new Vec2 left-perpendicular to this vector */
-        public function normalLeft():Vec2 { return Vec2.getNew(_y, -_x); }
+        public function perpLeft():Vec2 { return new Vec2(_y, -_x); }
         
 		/** Returns a new Vec2 with negated components */
-		public function negate():Vec2 { return Vec2.getNew( -_x, -_y); }
+		public function flip():Vec2 { return new Vec2( -_x, -_y); }
  
+		/** Returns a new Vec2 clamped to "maxLen" length. */
+		public function clamp(maxLen:Number):Vec2
+		{
+			var tx:Number = x;
+			var ty:Number = y;
+			var len:Number = tx * tx + ty * ty;
+			if (len > maxLen * maxLen)
+			{
+				len = Math.sqrt(len);
+				tx = (tx / len) * maxLen;
+				ty = (ty / len) * maxLen;
+			}
+			return new Vec2(tx, ty);
+		}
+
+		/** Returns a new Vec2 which is a unit for this vector */
+		public function unit():Vec2 
+		{
+			var scale:Number = 1 / Math.sqrt(_x * _x + _y * _y);
+			return new Vec2(_x * scale, _y * scale);
+		}
+		
 		
 		
         /** Rotates using spinor "vec" (returns a new Vec2) */
-        public function rotateSpinor(vec:Vec2Const):Vec2 { return Vec2.getNew(_x * vec._x - _y * vec._y, _x * vec._y + _y * vec._x); }
+        public function rotateSpinor(vec:Vec2Const):Vec2 { return new Vec2(_x * vec._x - _y * vec._y, _x * vec._y + _y * vec._x); }
 
 		/** Gets spinor between this vector and "vec" (returns a new Vec2) */
         public function spinorBetween(vec:Vec2Const):Vec2
@@ -224,12 +250,12 @@ package shared.math
             const d:Number = lengthSqr();
             const r:Number = (vec._x * _x + vec._y * _y) / d;
             const i:Number = (vec._y * _x - vec._x * _y) / d;
-            return Vec2.getNew(r, i);
+            return new Vec2(r, i);
         }
  
 
 		/** Linear interpolation from this vector to "to" vector (returns a new Vec2) */
-        public function lerp(to:Vec2Const, t:Number):Vec2 { return Vec2.getNew(_x + t * (to._x - _x), _y + t * (to._y - _y)); }
+        public function lerp(to:Vec2Const, t:Number):Vec2 { return new Vec2(_x + t * (to._x - _x), _y + t * (to._y - _y)); }
  
 		/** Spherical linear interpolation from this vector to "to" vector (returns a new Vec2) - not thoroughly tested */
         public function slerp(vec:Vec2Const, t:Number):Vec2
@@ -248,14 +274,14 @@ package shared.math
 		public function reflect(normal:Vec2Const):Vec2
         {
             const d:Number = 2 * (_x * normal._x + _y * normal._y);
-            return Vec2.getNew(_x - d * normal._x, _y - d * normal._y);
+            return new Vec2(_x - d * normal._x, _y - d * normal._y);
         }
 
 		/** Returns a new Vec2 which is the minimum between this vector and "vec" (component-wise) */
-        public function getMin(vec:Vec2Const):Vec2 { return Vec2.getNew(Math.min(vec._x, _x), Math.min(vec._y, _y)); }
+        public function getMin(vec:Vec2Const):Vec2 { return new Vec2(Math.min(vec._x, _x), Math.min(vec._y, _y)); }
 
 		/** Returns a new Vec2 which is the maximum between this vector and "vec" (component-wise) */
-        public function getMax(vec:Vec2Const):Vec2 { return Vec2.getNew(Math.max(vec._x, _x), Math.max(vec._y, _y)); }
+        public function getMax(vec:Vec2Const):Vec2 { return new Vec2(Math.max(vec._x, _x), Math.max(vec._y, _y)); }
 
 		
 		
@@ -265,7 +291,7 @@ package shared.math
 			return new Point(_x, _y);
 		}
 		
-        /** String representation of this vector */
-        public function toString():String { return "[" + _x + ", " + _y + "]"; }
+        /** String representation of this vector (4 decimal positions) */
+        public function toString():String { return "[" + _x.toFixed(4) + ", " + _y.toFixed(4) + "]"; }
     }
 }

@@ -4,14 +4,9 @@ package shared.math
      * A "mutable" 2D Vector class.																										<p></p>
      *
      * Due to the lack of AS3 operator overloading most methods exists with different names.											<p></p>
-     * All methods that end with "Self" actually modify the object itself (including obvious ones like copy, copyXY and zero).			
+     * All methods that end with "Self" actually modify the object itself (including obvious ones like set, setXY and zero).			
      * For example v1 += v2; is written as v1.addSelf(v2);																				<p></p>
      *
-     * Notes:																															<p></p>
-	 * 
-	 * 		There's an object pooling system in place, so if you're using a lot of Vec2 objects it might be convenient to get rid
-	 * 		of no more used Vec2s by calling their dispose() method and instantiate new ones with Vec2.getNew().						<p></p>
-	 * 		
 	 * 
 	 * Original work by playchilla, slightly reworked by azrafe7.																		<p></p>
 	 * 
@@ -25,12 +20,9 @@ package shared.math
      */
     public class Vec2 extends Vec2Const
     {
-		/** @private */
-		protected static const POOL_INITIAL_SIZE:int = 0;
-        
-		/** @private */
-		protected static var _pool:Vector.<Vec2> = new Vector.<Vec2>(POOL_INITIAL_SIZE);
-        
+        /** Constant to convert from radians to degrees */
+		public static const RAD2DEG:Number = 180 / Math.PI;
+
         /** Zero vector */
 		public static const Zero:Vec2Const = new Vec2Const;
         
@@ -45,7 +37,7 @@ package shared.math
         public function set y(y:Number):void { _y = y; }
  
 		/** Copies x and y components from "p" (where "p" is any object exposing x, y properties) */
-        public function copy(p:*):Vec2
+        public function set(p:*):Vec2
         {
             _x = p.x;
             _y = p.y;
@@ -53,7 +45,7 @@ package shared.math
         }
 		
 		/** Copies x and y components from passed arguments */
-        public function copyXY(x:Number, y:Number):Vec2
+        public function setXY(x:Number, y:Number):Vec2
         {
             _x = x;
             _y = y;
@@ -68,6 +60,14 @@ package shared.math
             return this;
         }
  
+		/** Length of the vector (can be assigned to) */
+		public function set length(value:Number):void 
+		{ 
+			var angle:Number = Math.atan2(_y, _x);
+			_x = Math.cos(angle) * value;
+			_y = Math.sin(angle) * value;
+		}
+
 		/** Adds "pos" vector */
         public function addSelf(pos:Vec2Const):Vec2
         {
@@ -141,9 +141,9 @@ package shared.math
         }
  
         /** Normalizes the vector */
-        public function normalizeSelf():Vec2
+        public function normalizeSelf(length:Number = 1):Vec2
         {
-            const nf:Number = 1 / Math.sqrt(_x * _x + _y * _y);
+            const nf:Number = length / Math.sqrt(_x * _x + _y * _y);
             _x *= nf;
             _y *= nf;
             return this;
@@ -174,7 +174,7 @@ package shared.math
         }
 
         /** Sets components to be right-perpendicular to this vector */
-        public function normalRightSelf():Vec2
+        public function perpRightSelf():Vec2
         {
             const xr:Number = _x;
             _x = -_y
@@ -183,7 +183,7 @@ package shared.math
         }
 
 		/** Sets components to be left-perpendicular to this vector */
-        public function normalLeftSelf():Vec2
+        public function perpLeftSelf():Vec2
         {
             const xr:Number = _x;
             _x = _y
@@ -192,16 +192,39 @@ package shared.math
         }
         
 		/** Negates components */
-		public function negateSelf():Vec2
+		public function flipSelf():Vec2
         {
             _x = -_x;
             _y = -_y;
             return this;
         }
 
+		/** Clamps this vector to "maxLen" length. */
+		public function clampSelf(maxLen:Number):Vec2
+		{
+			var tx:Number = x;
+			var ty:Number = y;
+			var len:Number = tx * tx + ty * ty;
+			if (len > maxLen * maxLen)
+			{
+				len = Math.sqrt(len);
+				x = (tx / len) * maxLen;
+				y = (ty / len) * maxLen;
+			}
+			return this;
+		}
+		
+		/** Vector angle in radians (can be assigned to) */
+		public function set angle(value:Number):void 
+		{ 
+			var len:Number = Math.sqrt(_x * _x + _y * _y);
+			_x = len * Math.cos(value);
+			_y = len * Math.sin(value);
+		}
+ 
 	
 		
-        /** Rotate using spinor "vec" */
+        /** Rotates using spinor "vec" */
         public function rotateSpinorSelf(vec:Vec2Const):Vec2
         {
             const xr:Number = _x * vec._x - _y * vec._y;
@@ -218,17 +241,10 @@ package shared.math
             return this;
         }
  
-		
-		/** Disposes this vector by adding it to the pool */
-		public function dispose():void
-		{
-			_pool[_pool.length] = this;
-		}
-
 		/** Creates a Vec2 from an AS3 Point (or any "p" object exposing x, y properties) */
 		public static function fromPoint(p:*):Vec2 
 		{
-			return Vec2.getNew(p.x, p.y);
+			return new Vec2(p.x, p.y);
 		}
 
 		/** Sets components converting from polar coords (returns a new Vec2) */
@@ -236,7 +252,7 @@ package shared.math
 		{
             const s:Number = Math.sin(rads);
             const c:Number = Math.cos(rads);
-			return Vec2.getNew(c * length, s * length);
+			return new Vec2(c * length, s * length);
 		}
 		
         /** Swaps vectors */
@@ -249,18 +265,5 @@ package shared.math
             b._x = x;
             b._y = y;
         }
- 
-		/** Gets a new Vec2 (possibly from the pool) */
-		public static function getNew(x:Number = 0, y:Number = 0):Vec2 
-		{
-			var len:int = _pool.length;
-			return len ? _pool.pop().copyXY(x, y) : new Vec2(x, y);
-		}
-		
-		/** Removes all vectors from the pool */
-		public static function clearPool():void 
-		{
-			_pool.length = 0;
-		}
     }
 }
