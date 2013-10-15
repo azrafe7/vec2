@@ -98,9 +98,9 @@ package shared.math
         public function scale(s:Number):Vec2 { return Vec2.getNew(_x * s, _y * s); }
  
         /** Normalizes the vector (returns a new Vec2) */
-        public function normalize():Vec2
+        public function normalize(length:Number = 1):Vec2
         {
-            const nf:Number = 1 / Math.sqrt(_x * _x + _y * _y);
+            const nf:Number = length / Math.sqrt(_x * _x + _y * _y);
             return Vec2.getNew(_x * nf, _y * nf);
         }
  
