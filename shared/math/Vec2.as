@@ -1,64 +1,64 @@
 package shared.math
 {
-    /**
-     * A "mutable" 2D Vector class.																										<p></p>
-     *
-     * Due to the lack of AS3 operator overloading most methods exists with different names.											<p></p>
-     * All methods that end with "Self" actually modify the object itself (including obvious ones like set, setXY and zero).			
-     * For example v1 += v2; is written as v1.addSelf(v2);																				<p></p>
-     *
+	/**
+	 * A "mutable" 2D Vector class.																										<p></p>
+	 *
+	 * Due to the lack of AS3 operator overloading most methods exists with different names.											<p></p>
+	 * All methods that end with "Self" actually modify the object itself (including obvious ones like set, setXY and zero).			
+	 * For example v1 += v2; is written as v1.addSelf(v2);																				<p></p>
+	 *
 	 * 
 	 * Original work by playchilla, slightly reworked by azrafe7.																		<p></p>
 	 * 
-     * License: Use it as you wish and if you like it - link back!
+	 * License: Use it as you wish and if you like it - link back!
 	 * 
 	 * @see http://www.playchilla.com/vector-2d-for-as3
 	 * @see https://github.com/azrafe7/vec2
 	 * 
-     * @author playchilla.com
-     * @author azrafe7
-     */
-    public class Vec2 extends Vec2Const
-    {
-        /** Constant to convert from radians to degrees */
+	 * @author playchilla.com
+	 * @author azrafe7
+	 */
+	public class Vec2 extends Vec2Const
+	{
+		/** Constant to convert from radians to degrees */
 		public static const RAD2DEG:Number = 180 / Math.PI;
 
-        /** Zero vector */
+		/** Zero vector */
 		public static const Zero:Vec2Const = new Vec2Const;
-        
+		
 
 		
 		public function Vec2(x:Number = 0, y:Number = 0) { super(x, y); }
  
 		/** X component */
-        public function set x(x:Number):void { _x = x; }
+		public function set x(x:Number):void { _x = x; }
 
 		/** X component */
-        public function set y(y:Number):void { _y = y; }
+		public function set y(y:Number):void { _y = y; }
  
 		/** Copies x and y components from "p" (where "p" is any object exposing x, y properties) */
-        public function set(p:*):Vec2
-        {
-            _x = p.x;
-            _y = p.y;
-            return this;
-        }
+		public function set(p:*):Vec2
+		{
+			_x = p.x;
+			_y = p.y;
+			return this;
+		}
 		
 		/** Copies x and y components from passed arguments */
-        public function setXY(x:Number, y:Number):Vec2
-        {
-            _x = x;
-            _y = y;
-            return this;
-        }
+		public function setXY(x:Number, y:Number):Vec2
+		{
+			_x = x;
+			_y = y;
+			return this;
+		}
 		
 		/** Sets x and y components to 0 */
-        public function zero():Vec2
-        {
-            _x = 0;
-            _y = 0;
-            return this;
-        }
+		public function zero():Vec2
+		{
+			_x = 0;
+			_y = 0;
+			return this;
+		}
  
 		/** Length of the vector (can be assigned to) */
 		public function set length(value:Number):void 
@@ -69,91 +69,91 @@ package shared.math
 		}
 
 		/** Adds "pos" vector */
-        public function addSelf(pos:Vec2Const):Vec2
-        {
-            _x += pos._x;
-            _y += pos._y;
-            return this;
-        }
+		public function addSelf(pos:Vec2Const):Vec2
+		{
+			_x += pos._x;
+			_y += pos._y;
+			return this;
+		}
 
 		/** Adds ("x", "y") */
 		public function addXYSelf(x:Number, y:Number):Vec2
-        {
-            _x += x;
-            _y += y;
-            return this;
-        }
+		{
+			_x += x;
+			_y += y;
+			return this;
+		}
  
 		/** Subtracts "pos" vector */
-        public function subSelf(pos:Vec2Const):Vec2
-        {
-            _x -= pos._x;
-            _y -= pos._y;
-            return this;
-        }
+		public function subSelf(pos:Vec2Const):Vec2
+		{
+			_x -= pos._x;
+			_y -= pos._y;
+			return this;
+		}
 
 		/** Subtracts ("x", "y") */
-        public function subXYSelf(x:Number, y:Number):Vec2
-        {
-            _x -= x;
-            _y -= y;
-            return this;
-        }
+		public function subXYSelf(x:Number, y:Number):Vec2
+		{
+			_x -= x;
+			_y -= y;
+			return this;
+		}
  
 		/** Multiplies by "vec" vector */
-        public function mulSelf(vec:Vec2Const):Vec2
-        {
-            _x *= vec._x;
-            _y *= vec._y;
-            return this;
-        }
+		public function mulSelf(vec:Vec2Const):Vec2
+		{
+			_x *= vec._x;
+			_y *= vec._y;
+			return this;
+		}
 
 		/** Multiplies by ("x", "y") */
-        public function mulXYSelf(x:Number, y:Number):Vec2
-        {
-            _x *= x;
-            _y *= y;
-            return this;
-        }
+		public function mulXYSelf(x:Number, y:Number):Vec2
+		{
+			_x *= x;
+			_y *= y;
+			return this;
+		}
  
- 		/** Divides by "vec" vector */
-        public function divSelf(vec:Vec2Const):Vec2
-        {
-            _x /= vec._x;
-            _y /= vec._y;
-            return this;
-        }
+		/** Divides by "vec" vector */
+		public function divSelf(vec:Vec2Const):Vec2
+		{
+			_x /= vec._x;
+			_y /= vec._y;
+			return this;
+		}
 
 		/** Divides by ("x", "y") */
-        public function divXYSelf(x:Number, y:Number):Vec2
-        {
-            _x /= x;
-            _y /= y;
-            return this;
-        }
+		public function divXYSelf(x:Number, y:Number):Vec2
+		{
+			_x /= x;
+			_y /= y;
+			return this;
+		}
  
-        /** Scales by the scalar "s" */
-        public function scaleSelf(s:Number):Vec2
-        {
-            _x *= s;
-            _y *= s;
-            return this;
-        }
+		/** Scales by the scalar "s" */
+		public function scaleSelf(s:Number):Vec2
+		{
+			_x *= s;
+			_y *= s;
+			return this;
+		}
  
-        /** Normalizes the vector */
-        public function normalizeSelf(length:Number = 1):Vec2
-        {
-            const nf:Number = length / Math.sqrt(_x * _x + _y * _y);
-            _x *= nf;
-            _y *= nf;
-            return this;
-        }
+		/** Normalizes the vector */
+		public function normalizeSelf(length:Number = 1):Vec2
+		{
+			const nf:Number = length / Math.sqrt(_x * _x + _y * _y);
+			_x *= nf;
+			_y *= nf;
+			return this;
+		}
  
 		/** Sets components converting from polar coords */
 		public function fromPolarSelf(rads:Number, length:Number):Vec2 
 		{
-            const s:Number = Math.sin(rads);
-            const c:Number = Math.cos(rads);
+			const s:Number = Math.sin(rads);
+			const c:Number = Math.cos(rads);
 			_x = c * length;
 			_y = s * length;
 			
@@ -162,42 +162,42 @@ package shared.math
 
 		
 		
-        /** Rotates by "rads" radians */
-        public function rotateSelf(rads:Number):Vec2
-        {
-            const s:Number = Math.sin(rads);
-            const c:Number = Math.cos(rads);
-            const xr:Number = _x * c - _y * s;
-            _y = _x * s + _y * c;
-            _x = xr;
-            return this;
-        }
+		/** Rotates by "rads" radians */
+		public function rotateSelf(rads:Number):Vec2
+		{
+			const s:Number = Math.sin(rads);
+			const c:Number = Math.cos(rads);
+			const xr:Number = _x * c - _y * s;
+			_y = _x * s + _y * c;
+			_x = xr;
+			return this;
+		}
 
-        /** Sets components to be right-perpendicular to this vector */
-        public function perpRightSelf():Vec2
-        {
-            const xr:Number = _x;
-            _x = -_y
-            _y = xr;
-            return this;
-        }
+		/** Sets components to be right-perpendicular to this vector */
+		public function perpRightSelf():Vec2
+		{
+			const xr:Number = _x;
+			_x = -_y
+			_y = xr;
+			return this;
+		}
 
 		/** Sets components to be left-perpendicular to this vector */
-        public function perpLeftSelf():Vec2
-        {
-            const xr:Number = _x;
-            _x = _y
-            _y = -xr;
-            return this;
-        }
-        
+		public function perpLeftSelf():Vec2
+		{
+			const xr:Number = _x;
+			_x = _y
+			_y = -xr;
+			return this;
+		}
+		
 		/** Negates components */
 		public function flipSelf():Vec2
-        {
-            _x = -_x;
-            _y = -_y;
-            return this;
-        }
+		{
+			_x = -_x;
+			_y = -_y;
+			return this;
+		}
 
 		/** Clamps this vector to "maxLen" length. */
 		public function clampSelf(maxLen:Number):Vec2
@@ -224,22 +224,22 @@ package shared.math
  
 	
 		
-        /** Rotates using spinor "vec" */
-        public function rotateSpinorSelf(vec:Vec2Const):Vec2
-        {
-            const xr:Number = _x * vec._x - _y * vec._y;
-            _y = _x * vec._y + _y * vec._x;
-            _x = xr;
-            return this;
-        }
+		/** Rotates using spinor "vec" */
+		public function rotateSpinorSelf(vec:Vec2Const):Vec2
+		{
+			const xr:Number = _x * vec._x - _y * vec._y;
+			_y = _x * vec._y + _y * vec._x;
+			_x = xr;
+			return this;
+		}
  
 		/** Linear interpolation from this vector to "to" vector */
-        public function lerpSelf(to:Vec2Const, t:Number):Vec2
-        {
-            _x = _x + t * (to._x - _x);
-            _y = _y + t * (to._y - _y);
-            return this;
-        }
+		public function lerpSelf(to:Vec2Const, t:Number):Vec2
+		{
+			_x = _x + t * (to._x - _x);
+			_y = _y + t * (to._y - _y);
+			return this;
+		}
  
 		/** Creates a Vec2 from an AS3 Point (or any "p" object exposing x, y properties) */
 		public static function fromPoint(p:*):Vec2 
@@ -250,20 +250,20 @@ package shared.math
 		/** Sets components converting from polar coords (returns a new Vec2) */
 		public static function fromPolar(rads:Number, length:Number):Vec2 
 		{
-            const s:Number = Math.sin(rads);
-            const c:Number = Math.cos(rads);
+			const s:Number = Math.sin(rads);
+			const c:Number = Math.cos(rads);
 			return new Vec2(c * length, s * length);
 		}
 		
-        /** Swaps vectors */
+		/** Swaps vectors */
 		public static function swap(a:Vec2, b:Vec2):void
-        {
-            const x:Number = a._x;
-            const y:Number = a._y;
-            a._x = b._x;
-            a._y = b._y;
-            b._x = x;
-            b._y = y;
-        }
-    }
+		{
+			const x:Number = a._x;
+			const y:Number = a._y;
+			a._x = b._x;
+			a._y = b._y;
+			b._x = x;
+			b._y = y;
+		}
+	}
 }
