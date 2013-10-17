@@ -2,7 +2,7 @@ Vec2
 ====
 
 A 2D vector class for AS3. Supports many operations: dot and cross product, rotation, tests for proximity, 
-find orthogonal vectors, interpolation and more. Check the [docs](http://azrafe7.github.io/vec2).
+find orthogonal vectors, clamping, interpolation and more. Check the [docs](http://azrafe7.github.io/vec2).
 
 Take a look at `Vec2Test.as` to see how to use this class.
 

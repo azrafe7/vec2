@@ -1,6 +1,7 @@
 package  
 {
 	import flash.geom.Point;
+	import flash.geom.Rectangle;
 	import flash.utils.Timer;
 	import shared.math.Vec2;
 	import shared.math.Vec2Const;
@@ -41,7 +42,8 @@ package
 			assert(v1.isNormalized());
 			assert(v1.setXY(1, 1).normalize().isWithinXY(0.7, 0.7, 0.1));
 			assert(!v1.isNormalized());
-			 
+			assert(v1.normalize().equals(v1.unit())); 
+			
 			// rotate
 			assert(v1.setXY(1, 0).perpLeft().equalsXY(0, -1));
 			assert(v1.setXY(1, 0).perpRight().equalsXY(0, 1));
@@ -64,7 +66,11 @@ package
 			assert(v1.distance(new Vec2(3, 0)) == 4);
 			assert(v1.distanceXY(3, 0) == 4);
 			assert(v1.clamp(4).length == 4);
-			assert(v1.unit().length == 1);
+			v1.setXY(5, 4);
+			var rect:Rectangle = new Rectangle(0, 0, 1, 2);
+			assert(v1.clampInRectSelf(rect).equalsXY(1, 2));
+			var unitLength:Number = v1.unit().length;
+			assert(unitLength > 1 - Vec2.Epsilon && unitLength < 1 + Vec2.Epsilon);
 			 
 			// dot
 			assert(v1.setXY(1, 0).dotXY(1, 0) == 1);
@@ -89,6 +95,11 @@ package
 			// slerp (need more testing)
 			assert(v1.setXY(1, 0).slerp(new Vec2(0, -1), 0.5).isWithinXY(0.7, -0.7, 0.1));
 			
+			// string
+			v1.setXY(1, 0).angle = Math.PI / 4;
+			trace(v1);
+			Vec2.stringDecimals = -1;
+			trace(v1);
 		}
 		
 		public static function assert(condition:Boolean):void 
