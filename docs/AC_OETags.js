@@ -35,10 +35,10 @@ function AC_Generateobj(objAttrs, params, embedAttrs)
   document.write(str);
 }
 
-function AC_FL_RunContent(){
+function AC_FL_RunContent(...args) {
   var ret = 
     AC_GetArgs
-    (  arguments, ".swf", "movie", "clsid:d27cdb6e-ae6d-11cf-96b8-444553540000"
+    (  args, ".swf", "movie", "clsid:d27cdb6e-ae6d-11cf-96b8-444553540000"
      , "application/x-shockwave-flash"
     );
   AC_Generateobj(ret.objAttrs, ret.params, ret.embedAttrs);

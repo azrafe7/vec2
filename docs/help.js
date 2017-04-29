@@ -318,22 +318,23 @@ function bubbleSortWithShadow(a,b)
 //---------------------------------------------------
 function buildHtmlResultsStr()
 {
-	var innerHTMLstring,ndxEnd;
+    var innerHTMLstring;
+    var ndxEnd;
 
-	// Gather all of the results display lines into the 'resultsArr'
-	ndxEnd = (matchesArrIndices.length > maxNumberOfShownSearchHits ) ? maxNumberOfShownSearchHits : matchesArrIndices.length;
+    // Gather all of the results display lines into the 'resultsArr'
+    ndxEnd = (matchesArrIndices.length > maxNumberOfShownSearchHits ) ? maxNumberOfShownSearchHits : matchesArrIndices.length;
 
-	for(var ndx=0, resultsArr = new Array(); ndx < ndxEnd; ndx++) {
+    for(var ndx=0, resultsArr = new Array(); ndx < ndxEnd; ndx++) {
 		resultsArr[resultsArr.length] = buildResultsStrOneLine(matchesArrIndices[ndx],matchesArrHits[ndx]);
 	}
 
-	// Convert this 'resultsArr' into a single string that will be injected into this search page.
-	innerHTMLstring = "<ol>";
-	for( var ndx=0; ndx < resultsArr.length; ndx++ ) {
+    // Convert this 'resultsArr' into a single string that will be injected into this search page.
+    innerHTMLstring = "<ol>";
+    for( var ndx=0; ndx < resultsArr.length; ndx++ ) {
 		innerHTMLstring = innerHTMLstring + resultsArr[ndx];
 	}
-	innerHTMLstring = innerHTMLstring + "</ol>";
-	return innerHTMLstring;
+    innerHTMLstring = innerHTMLstring + "</ol>";
+    return innerHTMLstring;
 }
 //---------------------------------------------------
 function buildResultsStrOneLine(a,b)
@@ -719,11 +720,14 @@ function indexesOf(str,ptn)
 //--------------------------------------------------
 function filterTheChars(line)
 {
-	var retStr = "",tempStr;
-	var ch, chCode, retChr;
-	var ndx;
-	
-	for( ndx = 0; ndx < line.length; ndx++ ) {
+    var retStr = "";
+    var tempStr;
+    var ch;
+    var chCode;
+    var retChr;
+    var ndx;
+
+    for( ndx = 0; ndx < line.length; ndx++ ) {
 		ch = line.substr(ndx,1);
 		chCode = ch.charCodeAt(0);
 		
@@ -749,14 +753,16 @@ function filterTheChars(line)
 		// Grow the return string
 			retStr += retChr;
 	}
-	
-	return retStr;
+
+    return retStr;
 }
 //--------------------------------------------------
 function isLigatureChar(codeToCheck) {
-	var xlatTblNdx, code, replStr = "";
+    var xlatTblNdx;
+    var code;
+    var replStr = "";
 
-	for( xlatTblNdx = 0; xlatTblNdx < upperAsciiXlatTbl.length; xlatTblNdx+=2 ) {
+    for( xlatTblNdx = 0; xlatTblNdx < upperAsciiXlatTbl.length; xlatTblNdx+=2 ) {
 
 		code = upperAsciiXlatTbl[xlatTblNdx];
 		if( code == codeToCheck ) {
@@ -764,8 +770,8 @@ function isLigatureChar(codeToCheck) {
 			break;
 		}
 	}
-	
-	return replStr;
+
+    return replStr;
 }
 //--------------------------------------------------
 function respondToSearchButton() 
@@ -871,17 +877,17 @@ if ((agt.indexOf("msie 5") != -1) || (agt.indexOf("msie 6") != -1)) {
 var Url = {
 
 	// public method for url encoding
-	encode : function (string) {
+	encode(string) {
 		return escape(this._utf8_encode(string));
 	},
 
 	// public method for url decoding
-	decode : function (string) {
+	decode(string) {
 		return this._utf8_decode(unescape(string));
 	},
 
 	// private method for UTF-8 encoding
-	_utf8_encode : function (string) {
+	_utf8_encode(string) {
 		string = string.replace(/\r\n/g,"\n");
 		var utftext = "";
 
@@ -908,7 +914,7 @@ var Url = {
 	},
 
 	// private method for UTF-8 decoding
-	_utf8_decode : function (utftext) {
+	_utf8_decode(utftext) {
 		var string = "";
 		var i = 0;
 		var c = c1 = c2 = 0;
